@@ -41,10 +41,16 @@
             </div>
      </body>
      <script>
-       let  A=[]
-        let A_originRow,A_origincolumn=0;
-       let  B=[]
-        let B_originRow,B_origincolumn=0;
+         class Sparse{
+             constructor(orginRow,originColumn){
+                this.orginRow=orginRow;
+                this.originColumn=originColumn;
+                this.data=[];
+             }
+         }
+       let  A=new Sparse()
+       let  B=new Sparse()
+
        let  C=[]
 
             function addmatrix(){
