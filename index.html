@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="./style.css">
+        <title>sparse ADT</title>
+     </head>
+     <body>
+         <div class="input container" style="text-align: center;">
+        <input type="text" placeholder="matrix1 row" id="m1row">
+        <input type="text" placeholder="matrix1 column" id="m1col">
+        <br>
+        <input type="text" placeholder="matrix2 row" id="m2row">
+       
+        <input type="text" placeholder="matrix2 column" id="m2col">
+        <br><br>
+        <button onclick="addmatrix()">submit</button>
+        <br>
+    </div>
+         <div class="container" style="text-align: center;" >
+
+        
+            <div id="matrix1">
+                    matrixA<br><br>
+            </div>
+            <br>
+            <div id="matrix2">
+                matrix B<br><br>
+        </div>
+        <div id="matrix3">
+            anwser:<br><br>
+    </div>
+
+            </div>
+            <br><br>
+            <div style="text-align: center;">
+                <button>A+B</button>
+                <button>A*B</button>
+                <button onclick="transpose(document.getElementById(`matrix1`))">transpose A</button>
+                <button onclick="transpose(document.getElementById(`matrix2`))">transpose B </button>
+                <button onclick="test(document.getElementById(`matrix1`))">test</button>
+            </div>
+     </body>
+     <script>
+       let  A=[]
+        let A_originRow,A_origincolumn=0;
+       let  B=[]
+        let B_originRow,B_origincolumn=0;
+       let  C=[]
+
+            function addmatrix(){
+                A_originRow = document.getElementById("m1row").value;
+                A_origincolumn = document.getElementById("m1col").value;
+                B_originRow = document.getElementById("m2row").value;
+                B_origincolumn = document.getElementById("m2col").value;
+                let matrix1=document.getElementById("matrix1");
+                let matrix2=document.getElementById("matrix2");
+                draw(A_originRow,A_origincolumn,matrix1);
+                draw(B_originRow,B_origincolumn,matrix2);
+            }
+            
+            function draw(row,col,parentdiv,draw_numbers=false){
+                let k=0;
+                let others_zero=false;
+                for(i=0;i<row;i++){
+                for(j=0;j<col;j++){
+                    var para = document.createElement("input"); 
+                para.style.width="30px"
+                para.style.height="30px"
+           para.style.backgroundColor="#eee";
+           if(draw_numbers){
+               if(k>=C.length){
+                    others_zero=true;
+               }
+
+              if( !others_zero ){
+                if(C[k][0]==i && C[k][1]==j){
+                    para.value=C[k][2];
+                    k++;
+                }
+                  
+              }else{
+                  k++;
+                  para.value="0";
+                  
+              }
+              
+           }
+            para.setAttribute("id",`${i} ${j}`)                                       
+            parentdiv.append(para);
+                }
+                let breakingRow=document.createElement("br");
+                parentdiv.append(breakingRow)
+                
+            
+
+            }
+            
+            }
+            function insert(matrix){
+                let numbers=document.querySelectorAll(`#matrix${matrix}>input`);
+                if(matrix==1){
+                    numbers.forEach((number)=>{
+                        if(number.value!=0){
+                            A.push([number.id[0],number.id[2],number.value])
+                        }
+                    
+                })
+                }
+                if(matrix==2){
+                    numbers.forEach((number)=>{
+                        if(number.value!=0){
+                            B.push([number.id[0],number.id[2],number.value])
+                        }
+                    
+                })
+                
+                }
+
+            }
+            function transpose(matrix){
+                insert(matrix);
+                var rowsize=[];
+                if(C.length>0){
+                    C.splice(0,c.length)
+                }
+                for( i=0;i<A.length;i++){
+                    C.push([0,0,0]);
+                }
+                if(matrix==1){
+                    
+                    for(i=0;i<A_origincolumn;i++){
+                        rowsize[i]=0;
+                    }
+                    for(i=0;i<A.length;i++){
+                        rowsize[A[i][1]]++;
+                    }
+                    
+                    var startOfRow=[];
+                    startOfRow[0]=0;
+                    for(i=1;i<A_origincolumn;i++){
+
+                        startOfRow[i]=startOfRow[i-1]+rowsize[i-1];
+                       
+                    }
+                    console.log(startOfRow)
+                    for(i=0;i<A.length;i++){
+                        var x=startOfRow[A[i][1]];
+                      C[x][0]=A[i][1]
+                      C[x][1]=A[i][0]
+                      C[x][2]=A[i][2]
+                        startOfRow[A[i][1]]++;
+                    }
+                    draw(A_originRow,A_originRow,matrix3,true);
+                }
+
+
+
+
+               
+                
+              
+               
+            }
+           
+     </script>
+</html>
