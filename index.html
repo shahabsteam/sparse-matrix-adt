@@ -102,6 +102,8 @@
                 if(sparseAdt.data[k][0]==i &&sparseAdt.data[k][1]==j){
                     para.value=sparseAdt.data[k][2];
                     k++;
+                }else{
+                    para.value=0;
                 }
                   
               }else{
@@ -160,7 +162,6 @@
                         startOfRow[i]=startOfRow[i-1]+rowsize[i-1];
                        
                     }
-                    console.log(startOfRow)
                     for(i=0;i<A.data.length;i++){
                         var x=startOfRow[A.data[i][1]];
                       C.data[x][0]=A.data[i][1]
