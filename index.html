@@ -20,11 +20,11 @@
 
         
             <div id="matrix1">
-                    matrixA<br><br>
+                   <br><br>
             </div>
             <br>
             <div id="matrix2">
-                matrix B<br><br>
+                <br><br>
         </div>
         <div id="matrix3">
             anwser:<br><br>
@@ -37,10 +37,20 @@
                 <button>A*B</button>
                 <button onclick="transpose(1,A)">transpose A</button>
                 <button onclick="transpose(2,B)">transpose B </button>
-                <button onclick="test(document.getElementById(`matrix1`))">test</button>
+                <button onclick="reset()">reset</button>
             </div>
      </body>
      <script>
+         function reset(){
+             for(i=1;i<=3;i++){
+                let matrix= document.getElementById(`matrix${i}`);
+                matrix.innerHTML="";
+                A.slice();
+                B.slice();
+             }
+                           
+                           
+         }
          class Sparse{
              constructor(orginRow,originColumn){
                 this.orginRow=orginRow;
@@ -51,6 +61,11 @@
                 this.data.push(info)
                  
              }
+             slice(){
+                 this.originRow=0;
+                 this.originColumn=0;
+                 this.data=[]
+             }
          }
        let  A=new Sparse()
        let  B=new Sparse()
@@ -58,12 +73,13 @@
 
             function addmatrix(){
                A.orginRow= document.getElementById("m1row").value;
-             
                 A.originColumn = document.getElementById("m1col").value;
                 B.orginRow = document.getElementById("m2row").value;
                 B.originColumn = document.getElementById("m2col").value;
                 let matrix1=document.getElementById("matrix1");
                 let matrix2=document.getElementById("matrix2");
+                matrix1.innerHTML="matrixA<br><br>";
+                matrix2.innerHTML="matrixB<br><br>";
                 draw(A.orginRow,A.originColumn,matrix1);
                 draw(B.orginRow,B.originColumn,matrix2);
             }
@@ -107,6 +123,8 @@
             
             }
             function insert(matrix,sparseAdt){
+                anwser=document.getElementById("matrix3");
+                matrix3.innerHTML="anwser:<br><br>"
                 let numbers=document.querySelectorAll(`#matrix${matrix}>input`);
                 
                     numbers.forEach((number)=>{
