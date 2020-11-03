@@ -34,7 +34,8 @@
             <br><br>
             <div style="text-align: center;">
                 <button onclick="sum()">A+B</button>
-                <button>A*B</button>
+                <button onclick="subtract()">A-B</button>
+                <button onclick="multiply()">A*B</button>
                 <button onclick="transpose(1,A)">transpose A</button>
                 <button onclick="transpose(2,B)">transpose B </button>
                 <button onclick="reset()">reset</button>
@@ -118,27 +119,20 @@
                 }
                 let breakingRow=document.createElement("br");
                 parentdiv.append(breakingRow)
-                
-            
+            }
+            }
 
-            }
-            
-            }
             function insert(matrix,sparseAdt){
                 anwser=document.getElementById("matrix3");
                 matrix3.innerHTML="anwser:<br><br>"
                 let numbers=document.querySelectorAll(`#matrix${matrix}>input`);
-                
                     numbers.forEach((number)=>{
                         if(number.value!=0){
                             sparseAdt.push([number.id[0],number.id[2],number.value])
                         }
-                    
                 })
-                
-             
-
             }
+
             function transpose(matrix,sparseAdt){
                 insert(matrix,sparseAdt);
                 var rowsize=[];
@@ -201,20 +195,49 @@
                         }
 
                     }
-                    /*for(i=0;i<A.data.length;i++){
-                        if(A.data[i][0]==B.data[i][0] && A.data[i][1]==B.data[i][1]){
-                            let sum=parseInt((A.data[i][2]))+parseInt((B.data[i][2]));
-                           
-                            C.push([A.data[i][0],A.data[i][1],sum])
-                        }
-
-                    }*/
+            
                     draw(A.originColumn,B.orginRow,matrix3,true,C); 
                 }else{
                     anwserdiv=document.getElementById("matrix3");
                     anwserdiv.innerHTML+="<p style='color:red;'>Error </p>"
                 }
 
+            }
+            function subtract(){
+                if(A.orginRow==B.orginRow && A.originColumn==B.originColumn){
+                    insert(1,A);
+                    insert(2,B);
+                    C=new Sparse(A.orginRow,A.originColumn);
+                    let indexA=0,indexB=0;
+                    
+                    while((indexA<A.data.length) && (indexB<B.data.length)){
+                        let rowA=A.data[indexA][0];
+                        let colA=A.data[indexA][1];
+                        let valueA=A.data[indexA][2];
+                        let rowB=B.data[indexB][0];
+                        let colB=B.data[indexB][1];
+                        let valueB=B.data[indexB][2];
+                        if(rowA<rowB ||(rowA==rowB && colB>colA) ){
+                            C.push([rowA,colA,valueA])
+                            indexA++;
+                        }else if(rowA>rowB ||(rowA==rowB && colA>colB)){
+
+                            C.push([rowB,colB,-valueB])
+                            indexB++;
+                        }else{
+                            let sum=parseInt((valueA))-parseInt((valueB));
+                            C.push([rowA,colA,sum])
+                            indexA++;
+                            indexB++;
+                        }
+
+                    }
+            
+                    draw(A.originColumn,B.orginRow,matrix3,true,C); 
+                }else{
+                    anwserdiv=document.getElementById("matrix3");
+                    anwserdiv.innerHTML+="<p style='color:red;'>Error </p>"
+                }
             }
             function orderedpair(rowA,colA,rowB,colA){
                 if(rowA<rowB)
