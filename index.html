@@ -133,7 +133,7 @@
                 })
             }
 
-            function transpose(matrix,sparseAdt){
+            function transpose(matrix,sparseAdt,isreturn=false){
                 insert(matrix,sparseAdt);
                 var rowsize=[];
                C=new Sparse(sparseAdt.orginRow,sparseAdt.originColumn)
@@ -162,6 +162,9 @@
                       C.data[x][1]=sparseAdt.data[i][0]
                       C.data[x][2]=sparseAdt.data[i][2]
                         startOfRow[sparseAdt.data[i][1]]++;
+                    }
+                    if(isreturn){
+                        return C;
                     }
                     draw(sparseAdt.originColumn,sparseAdt.orginRow,matrix3,true,C);    
                
@@ -268,12 +271,60 @@
                     anwserdiv.innerHTML+="<p style='color:red;'>Error </p>"
                 }
             }
-            function orderedpair(rowA,colA,rowB,colA){
-                if(rowA<rowB)
-                    return false;
-                if(rowA==rowB && colB>colA)   
-                    return false;
-                return false;    
+            function multiply(){
+                insert(1,A);
+                insert(2,B);
+                
+                if(A.originColumn==B.orginRow){
+                    let C = new Sparse(A.orginRow,B.originColumn);
+                    B=transpose(2,B,true);
+                    for(i=0;i<A.data.length;){
+                        console.log(i)
+                        let rowA=A.data[i][0];
+                        for(j=0;j<B.data.length;){
+                            
+                            let ColB=B.data[j][0];
+                            let sum=0;
+                            let tempAterm=i;
+                            let tempBterm=j;
+                            while (tempAterm < A.data.length && A.data[tempAterm][0] == rowA && 
+                              tempBterm < B.data.length && B.data[tempBterm][0] == ColB) {
+                                if (A.data[tempAterm][1] < B.data[tempBterm][1]) {
+                                 // skip a 
+                                 tempAterm++; 
+                                }
+                                else if (A.data[tempAterm][1] > B.data[tempBterm][1]) {
+                                     // skip b 
+                                    tempBterm++; 
+                                }else{
+                                    // same col, so multiply and increment 
+                                    sum += parseInt(A.data[tempAterm++][2]) *  
+                                   parseInt(  B.data[tempBterm++][2]); 
+                                }
+                              }
+                              if (sum != 0) 
+                                 C.push([rowA,ColB,sum])
+  
+                while (j < B.data.length &&  
+                       B.data[j][0] == ColB) 
+                    // jump to next column 
+                    j++; 
+                              
+                        }
+                        while (i < A.data.length && A.data[i][0] == rowA) 
+                        // jump to next row 
+                        i++;
+                        
+                    }
+                   
+                    
+                    draw(C.originColumn,C.orginRow,matrix3,true,C); 
+
+
+                }else{
+                    anwserdiv=document.getElementById("matrix3");
+                    anwserdiv.innerHTML+="<p style='color:red;'>Error </p>"
+                }
             }
            
      </script>
