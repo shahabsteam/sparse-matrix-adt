@@ -123,6 +123,9 @@
             }
 
             function insert(matrix,sparseAdt){
+                if(sparseAdt.data.length>0){
+                    sparseAdt.data=[];
+                }
                 anwser=document.getElementById("matrix3");
                 matrix3.innerHTML="anwser:<br><br>"
                 let numbers=document.querySelectorAll(`#matrix${matrix}>input`);
