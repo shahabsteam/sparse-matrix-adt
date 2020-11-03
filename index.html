@@ -194,6 +194,20 @@
                             indexB++;
                         }
 
+                    }while(indexA<A.data.length){
+                        let rowA=A.data[indexA][0];
+                        let colA=A.data[indexA][1];
+                        let valueA=A.data[indexA][2];
+                        C.push([rowA,colA,valueA]);
+                        indexA++;
+                    }
+                    while(indexB<B.data.length){
+                        let rowB=B.data[indexB][0];
+                        let colB=B.data[indexB][1];
+                        let valueB=B.data[indexB][2];
+                        C.push([rowB,colB,valueB]);
+                        indexB++;
+
                     }
             
                     draw(A.originColumn,B.orginRow,matrix3,true,C); 
@@ -230,6 +244,21 @@
                             indexA++;
                             indexB++;
                         }
+
+                    }
+                    while(indexA<A.data.length){
+                        let rowA=A.data[indexA][0];
+                        let colA=A.data[indexA][1];
+                        let valueA=A.data[indexA][2];
+                        C.push([rowA,colA,valueA]);
+                        indexA++;
+                    }
+                    while(indexB<B.data.length){
+                        let rowB=B.data[indexB][0];
+                        let colB=B.data[indexB][1];
+                        let valueB=B.data[indexB][2];
+                        C.push([rowB,colB,-valueB]);
+                        indexB++;
 
                     }
             
